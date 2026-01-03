@@ -18,11 +18,52 @@ const defaultData = {
     ]
 };
 
+// Emoji-Vorschlaege fuer schnelle Auswahl neuer Aufgaben.
+const iconOptions = [
+    "\u2b50",
+    "\U0001f31f",
+    "\U0001f308",
+    "\U0001f388",
+    "\U0001f3a8",
+    "\U0001f3b5",
+    "\u26bd",
+    "\U0001f9e9",
+    "\U0001f3af",
+    "\U0001f4da",
+    "\u270d\ufe0f",
+    "\U0001f3c6",
+    "\U0001f9f9",
+    "\U0001f6cf\ufe0f",
+    "\U0001f3ae",
+    "\U0001f3a7"
+];
+const iconCursor = { school: 0, home: 0, fun: 0 };
+
+function getDefaultIcon(category) {
+    const cursor = iconCursor[category] ?? 0;
+    const index = cursor % iconOptions.length;
+    iconCursor[category] = cursor + 1;
+    return iconOptions[index];
+}
+
+function ensureIconDatalist() {
+    if (document.getElementById('icon-options')) return;
+    const datalist = document.createElement('datalist');
+    datalist.id = 'icon-options';
+    iconOptions.forEach(icon => {
+        const option = document.createElement('option');
+        option.value = icon;
+        datalist.appendChild(option);
+    });
+    document.body.appendChild(datalist);
+}
+
 // Daten laden oder Defaults nehmen
 let planData = JSON.parse(localStorage.getItem('wochenplanData')) || JSON.parse(JSON.stringify(defaultData));
 
 // Initialisierung
 document.addEventListener('DOMContentLoaded', () => {
+    ensureIconDatalist();
     loadEditor();
     renderPreview();
 });
@@ -42,7 +83,7 @@ function renderEditorList(category, items) {
         const div = document.createElement('div');
         div.className = 'input-row';
         div.innerHTML = `
-            <input type="text" class="emoji-input" value="${item.icon}" onchange="updateItem('${category}', ${index}, 'icon', this.value)">
+            <input type="text" class="emoji-input" value="${item.icon}" list="icon-options" onchange="updateItem('${category}', ${index}, 'icon', this.value)">
             <input type="text" value="${item.text}" oninput="updateItem('${category}', ${index}, 'text', this.value)">
             <button class="btn-del" onclick="deleteItem('${category}', ${index})">✖</button>
         `;
@@ -62,7 +103,7 @@ function updateItem(category, index, field, value) {
 }
 
 function addItem(category) {
-    planData[category].push({ icon: "⭐", text: "Neue Aufgabe" }); // Default-Werte
+    planData[category].push({ icon: getDefaultIcon(category), text: "Neue Aufgabe" }); // Default-Werte
     loadEditor(); // Editor neu laden, damit das neue Feld erscheint
     saveAndRender();
 }
