@@ -58,12 +58,45 @@ function ensureIconDatalist() {
     document.body.appendChild(datalist);
 }
 
+let activeIconInput = null;
+
+function setActiveIconInput(input) {
+    activeIconInput = input;
+}
+
+function applyIcon(icon) {
+    if (!activeIconInput) return;
+    activeIconInput.value = icon;
+    const category = activeIconInput.dataset.category;
+    const index = Number(activeIconInput.dataset.index);
+    if (!Number.isNaN(index)) {
+        updateItem(category, index, 'icon', icon);
+    }
+}
+
+function renderIconPicker() {
+    const container = document.getElementById('icon-picker');
+    if (!container) return;
+    container.innerHTML = '';
+    iconOptions.forEach(icon => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'icon-choice';
+        btn.textContent = icon;
+        btn.addEventListener('click', () => applyIcon(icon));
+        container.appendChild(btn);
+    });
+}
+
+
+
 // Daten laden oder Defaults nehmen
 let planData = JSON.parse(localStorage.getItem('wochenplanData')) || JSON.parse(JSON.stringify(defaultData));
 
 // Initialisierung
 document.addEventListener('DOMContentLoaded', () => {
     ensureIconDatalist();
+    renderIconPicker();
     loadEditor();
     renderPreview();
 });
@@ -83,7 +116,7 @@ function renderEditorList(category, items) {
         const div = document.createElement('div');
         div.className = 'input-row';
         div.innerHTML = `
-            <input type="text" class="emoji-input" value="${item.icon}" list="icon-options" onchange="updateItem('${category}', ${index}, 'icon', this.value)">
+            <input type="text" class="emoji-input" value="${item.icon}" list="icon-options" data-category="${category}" data-index="${index}" onfocus="setActiveIconInput(this)" onchange="updateItem('${category}', ${index}, 'icon', this.value)">
             <input type="text" value="${item.text}" oninput="updateItem('${category}', ${index}, 'text', this.value)">
             <button class="btn-del" onclick="deleteItem('${category}', ${index})">✖</button>
         `;
