@@ -31,9 +31,12 @@ const iconOptions = [
     "\u{1F3AF}",
     "\u{1F4DA}",
     "\u270d\uFE0F",
+    "\u{1F3BB}",
+    "\u{1F4DD}",
     "\u{1F3C6}",
     "\u{1F9F9}",
     "\u{1F6CF}\uFE0F",
+    "\u{1F4FA}",
     "\u{1F3AE}",
     "\u{1F3A7}"
 ];
@@ -46,57 +49,19 @@ function getDefaultIcon(category) {
     return iconOptions[index];
 }
 
-function ensureIconDatalist() {
-    if (document.getElementById('icon-options')) return;
-    const datalist = document.createElement('datalist');
-    datalist.id = 'icon-options';
-    iconOptions.forEach(icon => {
-        const option = document.createElement('option');
-        option.value = icon;
-        datalist.appendChild(option);
-    });
-    document.body.appendChild(datalist);
-}
-
-let activeIconInput = null;
-
-function setActiveIconInput(input) {
-    activeIconInput = input;
-}
-
-function applyIcon(icon) {
-    if (!activeIconInput) return;
-    activeIconInput.value = icon;
-    const category = activeIconInput.dataset.category;
-    const index = Number(activeIconInput.dataset.index);
-    if (!Number.isNaN(index)) {
-        updateItem(category, index, 'icon', icon);
+function getIconOptionsFor(selectedIcon) {
+    const options = iconOptions.slice();
+    if (selectedIcon && !options.includes(selectedIcon)) {
+        options.unshift(selectedIcon);
     }
+    return options;
 }
-
-function renderIconPicker() {
-    const container = document.getElementById('icon-picker');
-    if (!container) return;
-    container.innerHTML = '';
-    iconOptions.forEach(icon => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'icon-choice';
-        btn.textContent = icon;
-        btn.addEventListener('click', () => applyIcon(icon));
-        container.appendChild(btn);
-    });
-}
-
-
 
 // Daten laden oder Defaults nehmen
 let planData = JSON.parse(localStorage.getItem('wochenplanData')) || JSON.parse(JSON.stringify(defaultData));
 
 // Initialisierung
 document.addEventListener('DOMContentLoaded', () => {
-    ensureIconDatalist();
-    renderIconPicker();
     loadEditor();
     renderPreview();
 });
@@ -113,10 +78,15 @@ function renderEditorList(category, items) {
     const container = document.getElementById(`list-${category}`);
     container.innerHTML = '';
     items.forEach((item, index) => {
+        const options = getIconOptionsFor(item.icon)
+            .map(icon => `<option value="${icon}"${icon === item.icon ? ' selected' : ''}>${icon}</option>`)
+            .join('');
         const div = document.createElement('div');
         div.className = 'input-row';
         div.innerHTML = `
-            <input type="text" class="emoji-input" value="${item.icon}" list="icon-options" data-category="${category}" data-index="${index}" onfocus="setActiveIconInput(this)" onchange="updateItem('${category}', ${index}, 'icon', this.value)">
+            <select class="emoji-select" onchange="updateItem('${category}', ${index}, 'icon', this.value)">
+                ${options}
+            </select>
             <input type="text" value="${item.text}" oninput="updateItem('${category}', ${index}, 'text', this.value)">
             <button class="btn-del" onclick="deleteItem('${category}', ${index})">✖</button>
         `;

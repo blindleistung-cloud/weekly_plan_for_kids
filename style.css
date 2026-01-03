@@ -62,39 +62,13 @@ footer{margin-top:10px; font-size:12px; color:var(--muted); display:flex; justif
 .editor-section h3 { font-size: 1rem; margin-bottom: 10px; color: var(--accent); }
 .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
 .input-row input[type="text"] { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
-.input-row input.emoji-input { width: 30px; text-align: center; }
+.input-row select.emoji-select { width: 44px; padding: 4px; text-align: center; }
 .btn-del { background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; cursor: pointer; border-radius: 4px; padding: 0 8px; }
 button { cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; background: #f9fafb; border-radius: 4px; width: 100%; }
 button:hover { background: #f3f4f6; }
 .btn-print { background: var(--accent); color: white; border-color: var(--accent); font-weight: bold; margin-bottom: 8px; }
 .btn-print:hover { background: #1e3a5f; }
 .hint { font-size: 0.8rem; color: #888; text-align: center; }
-.icon-picker {
-    margin-bottom: 16px;
-    padding: 10px;
-    border: 1px dashed #e5e7eb;
-    border-radius: 8px;
-    background: #f9fafb;
-}
-.icon-picker-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
-.icon-picker-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-.icon-choice {
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    border: 1px solid #ddd;
-    background: #fff;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    line-height: 1;
-    flex: 0 0 30px;
-}
-.icon-choice:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-.icon-picker-hint { font-size: 0.75rem; color: #888; margin-top: 6px; }
-
 
 /* --- Druck Styles --- */
 @page{size: A4 portrait; margin:10mm;}
