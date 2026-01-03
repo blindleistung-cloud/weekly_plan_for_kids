@@ -21,21 +21,21 @@ const defaultData = {
 // Emoji-Vorschlaege fuer schnelle Auswahl neuer Aufgaben.
 const iconOptions = [
     "\u2b50",
-    "\U0001f31f",
-    "\U0001f308",
-    "\U0001f388",
-    "\U0001f3a8",
-    "\U0001f3b5",
+    "\u{1F31F}",
+    "\u{1F308}",
+    "\u{1F388}",
+    "\u{1F3A8}",
+    "\u{1F3B5}",
     "\u26bd",
-    "\U0001f9e9",
-    "\U0001f3af",
-    "\U0001f4da",
-    "\u270d\ufe0f",
-    "\U0001f3c6",
-    "\U0001f9f9",
-    "\U0001f6cf\ufe0f",
-    "\U0001f3ae",
-    "\U0001f3a7"
+    "\u{1F9E9}",
+    "\u{1F3AF}",
+    "\u{1F4DA}",
+    "\u270d\uFE0F",
+    "\u{1F3C6}",
+    "\u{1F9F9}",
+    "\u{1F6CF}\uFE0F",
+    "\u{1F3AE}",
+    "\u{1F3A7}"
 ];
 const iconCursor = { school: 0, home: 0, fun: 0 };
 
