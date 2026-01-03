@@ -64,6 +64,14 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
+function formatDisplayDate(value) {
+    if (!value) return '';
+    const parts = value.split('-');
+    if (parts.length !== 3) return value;
+    const [year, month, day] = parts;
+    return `${day}.${month}.${year}`;
+}
+
 function getNextWeekRange() {
     const today = new Date();
     const day = today.getDay();
@@ -100,8 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // 1. Editor-Felder befüllen
 function loadEditor() {
     document.getElementById('planTitle').value = planData.title;
-    const weekFrom = document.getElementById('weekFrom');
-    const weekTo = document.getElementById('weekTo');
+    const weekFrom = document.getElementById('weekFromInput');
+    const weekTo = document.getElementById('weekToInput');
     if (weekFrom) {
         weekFrom.value = planData.dateFrom || '';
     }
@@ -178,6 +186,14 @@ function saveAndRender() {
 // 3. Vorschau Tabelle rendern
 function renderPreview() {
     document.getElementById('previewTitle').innerText = planData.title;
+    const weekFromDisplay = document.getElementById('weekFromDisplay');
+    const weekToDisplay = document.getElementById('weekToDisplay');
+    if (weekFromDisplay) {
+        weekFromDisplay.textContent = formatDisplayDate(planData.dateFrom);
+    }
+    if (weekToDisplay) {
+        weekToDisplay.textContent = formatDisplayDate(planData.dateTo);
+    }
     const tbody = document.getElementById('planTableBody');
     tbody.innerHTML = '';
 
