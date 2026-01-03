@@ -46,9 +46,9 @@
             <h1 id="previewTitle">Wochenplan</h1>
             <div class="week">
                 <label>Woche vom:</label>
-                <span class="line"></span>
+                <input type="date" id="weekFrom" class="line" onchange="updateWeekDate('dateFrom', this.value)">
                 <label>bis:</label>
-                <span class="line"></span>
+                <input type="date" id="weekTo" class="line" onchange="updateWeekDate('dateTo', this.value)">
             </div>
         </header>
 

@@ -1,6 +1,6 @@
 // Standard-Daten, falls nichts gespeichert ist
 const defaultData = {
-    title: "Jakobs Wochenplan",
+    title: "Wochenplan",
     school: [
         { icon: "📚", text: "Hausaufgaben sorgfältig erledigt" },
         { icon: "✍️", text: "Schulsachen vorbereitet (Unterschriften, Stifte)" },
@@ -57,8 +57,39 @@ function getIconOptionsFor(selectedIcon) {
     return options;
 }
 
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function getNextWeekRange() {
+    const today = new Date();
+    const day = today.getDay();
+    const daysUntilNextMonday = ((8 - day) % 7) || 7;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + daysUntilNextMonday);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    return { from: formatDate(monday), to: formatDate(sunday) };
+}
+
+function setNextWeekDates() {
+    const nextWeek = getNextWeekRange();
+    planData.dateFrom = nextWeek.from;
+    planData.dateTo = nextWeek.to;
+}
+
+function ensureWeekDates() {
+    if (!planData.dateFrom || !planData.dateTo) {
+        setNextWeekDates();
+    }
+}
+
 // Daten laden oder Defaults nehmen
 let planData = JSON.parse(localStorage.getItem('wochenplanData')) || JSON.parse(JSON.stringify(defaultData));
+ensureWeekDates();
 
 // Initialisierung
 document.addEventListener('DOMContentLoaded', () => {
@@ -69,6 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // 1. Editor-Felder befüllen
 function loadEditor() {
     document.getElementById('planTitle').value = planData.title;
+    const weekFrom = document.getElementById('weekFrom');
+    const weekTo = document.getElementById('weekTo');
+    if (weekFrom) {
+        weekFrom.value = planData.dateFrom || '';
+    }
+    if (weekTo) {
+        weekTo.value = planData.dateTo || '';
+    }
     renderEditorList('school', planData.school);
     renderEditorList('home', planData.home);
     renderEditorList('fun', planData.fun);
@@ -100,6 +139,11 @@ function updatePlan() {
     saveAndRender();
 }
 
+function updateWeekDate(field, value) {
+    planData[field] = value;
+    saveAndRender();
+}
+
 function updateItem(category, index, field, value) {
     planData[category][index][field] = value;
     saveAndRender();
@@ -120,6 +164,7 @@ function deleteItem(category, index) {
 function resetDefaults() {
     if (confirm("Möchtest du wirklich alles auf den Standard zurücksetzen?")) {
         planData = JSON.parse(JSON.stringify(defaultData));
+        setNextWeekDates();
         loadEditor();
         saveAndRender();
     }
