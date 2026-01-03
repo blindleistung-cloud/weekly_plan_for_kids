@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wochenplan Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="editor no-print">
+        <h2>✏️ Plan bearbeiten</h2>
+
+        <div class="editor-section">
+            <h3>Titel & Kopfzeile</h3>
+            <input type="text" id="planTitle" value="Jakobs Wochenplan" oninput="updatePlan()">
+        </div>
+
+        <div class="editor-section">
+            <h3>📚 Schule & Lernen</h3>
+            <div id="list-school"></div>
+            <button onclick="addItem('school')">+ Aktivität hinzufügen</button>
+        </div>
+
+        <div class="editor-section">
+            <h3>🏠 Verantwortung & Alltag</h3>
+            <div id="list-home"></div>
+            <button onclick="addItem('home')">+ Aktivität hinzufügen</button>
+        </div>
+
+        <div class="editor-section">
+            <h3>🎯 Freizeit & Ausgleich</h3>
+            <div id="list-fun"></div>
+            <button onclick="addItem('fun')">+ Aktivität hinzufügen</button>
+        </div>
+
+        <div class="actions">
+            <button onclick="window.print()" class="btn-print">🖨️ Drucken</button>
+            <button onclick="resetDefaults()" class="btn-reset">↺ Standard wiederherstellen</button>
+        </div>
+        <p class="hint">Deine Änderungen werden automatisch gespeichert.</p>
+    </div>
+
+    <div class="page">
+        <header>
+            <h1 id="previewTitle">Jakobs Wochenplan</h1>
+            <div class="week">
+                <label>Woche vom:</label>
+                <span class="line"></span>
+                <label>bis:</label>
+                <span class="line"></span>
+            </div>
+        </header>
+
+        <div class="legend" style="margin-top:10px;">
+            <span class="chip schoolTag">Schule & Lernen</span>
+            <span class="chip homeTag">Verantwortung & Alltag</span>
+            <span class="chip funTag">Freizeit & Ausgleich</span>
+        </div>
+
+        <table>
+            <colgroup>
+                <col class="col-activity" />
+                <col class="col-day" /><col class="col-day" /><col class="col-day" /><col class="col-day" /><col class="col-day" /><col class="col-day" /><col class="col-day" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Aktivität</th>
+                    <th>Mo</th><th>Di</th><th>Mi</th><th>Do</th><th>Fr</th><th>Sa</th><th>So</th>
+                </tr>
+            </thead>
+            <tbody id="planTableBody">
+                </tbody>
+        </table>
+
+        <section class="reflect">
+            <div class="card schoolTag"><h3>✅ Das hat super geklappt</h3><p></p></div>
+            <div class="card" style="background:#ffe6e6"><h3>⚠️ Das war schwierig</h3><p></p></div>
+            <div class="card funTag"><h3>⭐ Darauf bin ich stolz</h3><p></p></div>
+        </section>
+
+        <footer>
+            <div>Tipps: Kreuze täglich selbst setzen - am Sonntag gemeinsam kurz besprechen.</div>
+            <div>Generator v2.0</div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
