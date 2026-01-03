@@ -36,6 +36,28 @@ Since this is a static site, you do not need to install any dependencies.
 2. Navigate to the project folder.
 3. Double-click `index.html` to open it in your default web browser.
 
+## Cloudflare Pages Deployment
+
+This project is a static site with no build step.
+
+### Dashboard (Git integration)
+
+- Framework preset: None
+- Build command: (leave empty)
+- Build output directory: .
+- Root directory: (leave empty)
+
+### Wrangler CLI (optional)
+
+A minimal `wrangler.toml` is included with `pages_build_output_dir = "."` for CLI deploys.
+
+Example:
+
+```sh
+wrangler pages deploy . --project-name weekly-plan-for-kids
+```
+
+
 ## Usage Guide
 
 ### 1. Editing the Plan
