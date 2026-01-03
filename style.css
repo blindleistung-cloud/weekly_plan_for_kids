@@ -102,6 +102,11 @@ button:hover { background: #f3f4f6; }
     .page { box-shadow: none; margin: 0; width: 100%; max-width: none; padding: 0; }
     .table-wrap { overflow: visible; }
     .table-wrap table { min-width: 0; }
+    table { margin-top: 10px; }
+    th { font-size: 12px; }
+    td { height: 30px; }
+    th, td { padding: 6px; }
+    .box { width: 16px; height: 16px; border-width: 1px; }
     header{background:#f8fafc !important; -webkit-print-color-adjust: exact;}
     thead th{background:#e5e7eb !important; -webkit-print-color-adjust: exact;}
     .group.school td{background:var(--school) !important; -webkit-print-color-adjust: exact;}
